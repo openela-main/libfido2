@@ -1,7 +1,7 @@
 Name:           libfido2
 
-Version:        1.6.0
-Release:        7%{?dist}
+Version:        1.13.0
+Release:        1%{?dist}
 Summary:        FIDO2 library
 
 License:        BSD
@@ -9,20 +9,19 @@ URL:            https://github.com/Yubico/%{name}
 Source0:        https://developers.yubico.com/%{name}/Releases/%{name}-%{version}.tar.gz
 Source1:        https://developers.yubico.com/%{name}/Releases/%{name}-%{version}.tar.gz.sig
 Source2:        yubico-release-gpgkeys.asc
-# Work around false positive from gcc-11 until its fixed upstream
-# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=97631
-Patch0002:      %{name}-gcc11.patch
-Patch0003:      %{name}-openssl30.patch
+Patch001:       001-skip-sha1-tests.patch
 
 BuildRequires:  cmake
 BuildRequires:  hidapi-devel
 BuildRequires:  libcbor-devel
 BuildRequires:  libudev-devel
 BuildRequires:  openssl-devel
+BuildRequires:  zlib-devel
 BuildRequires:  gcc
 BuildRequires:  gnupg2
 BuildRequires:  make
 Requires:       (u2f-hidraw-policy if systemd-udev)
+Requires:       zlib
 
 %description
 %{name} is an open source library to support the FIDO2 protocol.  FIDO2 is
@@ -65,6 +64,9 @@ authentication device.
 %cmake
 %cmake_build
 
+%check
+cd "%{_vpath_builddir}"
+make test
 
 %install
 %cmake_install
@@ -89,6 +91,16 @@ find %{buildroot} -type f -name "*.a" -delete -print
 
 
 %changelog
+* Wed Apr 19 2023 Dmitry Belyavskiy <dbelyavs@redhat.com> - 1.13.0-1
+- Upgrade to 1.13
+  Resolves: rhbz#2122193
+
+* Tue Aug 17 2021 Dmitry Belyavskiy <dbelyavs@redhat.com> - 1.6.0-9
+- rebuilt
+
+* Mon Aug 16 2021 Dmitry Belyavskiy <dbelyavs@redhat.com> - 1.6.0-8
+- rebuilt
+
 * Mon Aug 09 2021 Mohan Boddu <mboddu@redhat.com> - 1.6.0-7
 - Rebuilt for IMA sigs, glibc 2.34, aarch64 flags
   Related: rhbz#1991688
