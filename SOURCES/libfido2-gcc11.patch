@@ -1,0 +1,12 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index dbd5fa5..a5cdbbb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -133,6 +133,7 @@ else()
+ 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wwrite-strings")
+ 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wmissing-prototypes")
+ 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wbad-function-cast")
++	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-stringop-overflow")
+ 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pedantic")
+ 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pedantic-errors")
+ 	check_c_compiler_flag("-fstack-protector-all" HAVE_STACK_PROTECTOR_ALL)
